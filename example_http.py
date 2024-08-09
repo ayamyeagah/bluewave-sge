@@ -16,17 +16,17 @@ payload = json.dumps({
         {
           "id": 1,
           "value": 70.43,
-          "timestamp": "2024-05-06 09:56:46"
+          "timestamp": "2024-08-09 08:22:00"
         },
         {
           "id": 2,
           "value": 16.5,
-          "timestamp": "2024-05-06 09:56:46"
+          "timestamp": "2024-08-09 08:22:00"
         },
         {
           "id": 3,
           "value": 64.68,
-          "timestamp": "2024-05-06 09:56:46"
+          "timestamp": "2024-08-09 08:22:00"
         }
       ]
     },
@@ -36,17 +36,17 @@ payload = json.dumps({
         {
           "id": 1,
           "value": 70.43,
-          "timestamp": "2024-05-06 09:56:46"
+          "timestamp": "2024-08-09 08:22:00"
         },
         {
           "id": 2,
           "value": 16.5,
-          "timestamp": "2024-05-06 09:56:46"
+          "timestamp": "2024-08-09 08:22:00"
         },
         {
           "id": 3,
-          "value": 64.68,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 66.6,
+          "timestamp": "2024-08-09 08:22:00"
         }
       ]
     },
@@ -54,4 +54,4 @@ payload = json.dumps({
 })
 
 response = requests.request("POST", url, headers=headers, data=payload)
-print(response.text)
+print(response)

@@ -9,18 +9,18 @@ payload = json.dumps({
       "data": [
         {
           "id": 1,
-          "value": 70.43,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 77.44,
+          "timestamp": "2024-08-09 08:50:00"
         },
         {
           "id": 2,
-          "value": 16.5,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 44.5,
+          "timestamp": "2024-08-09 08:50:00"
         },
         {
           "id": 3,
-          "value": 64.68,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 60.69,
+          "timestamp": "2024-08-09 08:50:00"
         }
       ]
     },
@@ -29,18 +29,18 @@ payload = json.dumps({
       "data": [
         {
           "id": 1,
-          "value": 70.43,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 77.44,
+          "timestamp": "2024-08-09 08:50:00"
         },
         {
           "id": 2,
-          "value": 16.5,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 99.5,
+          "timestamp": "2024-08-09 08:50:00"
         },
         {
           "id": 3,
-          "value": 64.68,
-          "timestamp": "2024-05-06 09:56:46"
+          "value": 77.7,
+          "timestamp": "2024-08-09 08:50:00"
         }
       ]
     },
