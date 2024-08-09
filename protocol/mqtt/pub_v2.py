@@ -1,10 +1,6 @@
 import json
 import time
 from mqtt_client import mqttClient
-from data.payload import generate_json
-from data.temperature import temp1, temp2
-from data.humidity import hum1, hum2
-from data.powermeter import power
 
 payload = json.dumps({
   "sensors": [
