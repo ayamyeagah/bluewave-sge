@@ -1,7 +1,8 @@
 import random
 
 def power():
-    # handle incoming data from powermeter
-    data = round(random.uniform(12,24), 2)
+    kWh = round(random.uniform(12,24), 2)
+    kVAR = round(random.uniform(12,24), 2)
+    Hz = round(random.uniform(12,24), 2)
 
-    return data
+    return [kWh, kVAR, Hz]

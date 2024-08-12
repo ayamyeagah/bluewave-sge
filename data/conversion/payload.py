@@ -1,5 +1,4 @@
 import datetime
-import random
 import uuid
 
 def generate_json(sensorID, value):

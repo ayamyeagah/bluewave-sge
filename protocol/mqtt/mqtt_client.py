@@ -1,9 +1,10 @@
 import paho.mqtt.client as mqtt
+from dotenv import load_dotenv
 
-mqtt_broker_ip = "34.124.239.203"
-mqtt_broker_port = 1883
-mqtt_username = "bluewave"
-mqtt_password = "blu3w4vep455"
+mqtt_broker_ip = load_dotenv("MQTT_IP")
+mqtt_broker_port = load_dotenv("MQTT_PORT")
+mqtt_username = load_dotenv("MQTT_USERNAME")
+mqtt_password = load_dotenv("MQTT_PASSWORD")
 
 def on_connect(client, userdata, flags, reason_code, properties):
     print(f"Connected with result code {reason_code}")
