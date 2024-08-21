@@ -10,14 +10,8 @@ python3 -m venv .venv
 pip install --no-cache-dir -r requirements.txt
 ```
 
-### Run HTTP Example
+### Run
 
 ```bash
-python example_http.py
-```
-
-### Run MQTT Example
-
-```bash
-python example_mqtt.py
+python main.py --interval 60
 ```
