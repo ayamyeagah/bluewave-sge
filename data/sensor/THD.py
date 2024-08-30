@@ -19,11 +19,14 @@ class S71200:
             try:
                 data = self.plc.read_area(areas['DB'], db_number, start, size)
                 buffer = []
-                for i in range(0, 13, 4):
+                for i in range(start, (start+13), 4):
                     buffer.append(get_real(data, i))
                 temp1, temp2, hum1, hum2 = buffer
                 return temp1, temp2, hum1, hum2
-            finally:
-                self.plc.disconnect()
+            except:
+                print("Failed read Data Block S7-1200")
+                return None
+            # finally:
+            #     self.plc.disconnect()
         else:
             return None

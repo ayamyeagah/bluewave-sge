@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 
 from data.conversion.payload import generate_json as gJSON
 from data.sensor.THD import S71200
-from data.sensor.powermeter import power
+from data.sensor.powermeter import PM
 # from protocol.http.post import post
-from protocol.mqtt.pub import MQTT
+from protocol.mqtt.pub import MQTTc as MQTT
 
 load_dotenv()
 
@@ -19,20 +19,23 @@ MQTT_IP = os.getenv('MQTT_IP')
 MQTT_PORT = os.getenv('MQTT_PORT')
 MQTT_USERNAME = os.getenv('MQTT_USERNAME')
 MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
+SERIAL_PORT = os.getenv('SERIAL_PORT')
 PLC_IP = os.getenv('PLC_IP')
 DB_NUM = 1
-START = 0
+START = 16
 SIZE = 16
 
 p_mqtt = MQTT(MQTT_USERNAME, MQTT_PASSWORD)
-p_mqtt.connect(MQTT_IP, MQTT_PORT)
-
 plc = S71200(PLC_IP)
-plc.connect()
+pm = PM(SERIAL_PORT, 9600)
 
-data = plc.read(DB_NUM, START, SIZE)
+p_mqtt.connect(MQTT_IP, MQTT_PORT)
+plc.connect()
+pm.connect()
 
 def c_payload():
+    data = plc.read(DB_NUM, START, SIZE)
+
     if data:
         temp1, temp2, hum1, hum2 = data
         print(temp1, temp2, hum1, hum2)
@@ -40,15 +43,21 @@ def c_payload():
         temp1 = temp2 = hum1 = hum2 = None
         print("No data available")
 
-    kWh, kVAR, Hz = power()
+    registers = [56, 58, 62]
+    rBuffer = []
+    for reg in registers:
+        rBuffer.append(pm.read(reg, 2))
+    Hz, kVARh, kWh = rBuffer
+    print(kWh, kVARh, Hz)
+    
     payload = [
-        gJSON("03d92a4c-7fd3-45e2-96b0-366269728e1d", temp1),
-        gJSON("9be9e581-edab-4bb9-915b-fe5c87d72021", temp2),
-        gJSON("1a3716c9-1851-4101-ba1c-92ef6559feb2", hum1),
-        gJSON("4cec0158-47a0-4f43-be45-7fcf5c5ff3f6", hum2),
-        gJSON("3cbf56fa-0050-4f4b-8521-21e298807db0", kWh),
-        gJSON("ac418648-c692-4201-965d-639a0cdd33bb", kVAR),
-        gJSON("227b9cd6-75d8-4fd7-8437-fe6bc27925b0", Hz)
+        gJSON(os.gotenv('SENSOR_ID_TEMP1'), temp1),
+        gJSON(os.gotenv('SENSOR_ID_TEMP2'), temp2),
+        gJSON(os.gotenv('SENSOR_ID_HUM1'), hum1),
+        gJSON(os.gotenv('SENSOR_ID_HUM2'), hum2),
+        gJSON(os.gotenv('SENSOR_ID_KWH'), kWh),
+        gJSON(os.gotenv('SENSOR_ID_KVARH'), kVARh),
+        gJSON(os.gotenv('SENSOR_ID_HZ'), Hz)
     ]
     return json.dumps({"sensors": payload}, default=str)
 
@@ -68,4 +77,13 @@ def main():
         time.sleep(interval)
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        plc.disconnect()
+        pm.disconnect()
+        p_mqtt.disconnect()
+        logging.info('Exiting...')
+        exit
